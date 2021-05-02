@@ -1,0 +1,18 @@
+{
+    "name": "graphs",
+    "version": "1.0.0",
+    "main": "main.js",
+    "author": "Felippe Chemello",
+    "license": "MIT",
+    "scripts": {
+        "dev": "ts-node-dev --respawn --transpile-only src/main.ts",
+        "start": "ts-node src/main.ts"
+    },
+    "dependencies": {
+        "ts-node": "^9.1.1"
+    },
+    "devDependencies": {
+        "ts-node-dev": "^1.1.6",
+        "typescript": "^4.2.4"
+    }
+}
