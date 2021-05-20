@@ -124,6 +124,7 @@ export default class AdjacencyMatrixGraph {
 
     public showMatrix() {
         console.log()
+        console.log('Adjacency Matrix:')
         console.log(
             this.adjacencyMatrix
                 .map((_, index) => (index === 0 ? '   ' : '') + (index + 1) + (index + 1 === this.numberOfVertices ? '' : ' | '))
@@ -131,6 +132,35 @@ export default class AdjacencyMatrixGraph {
         )
 
         this.adjacencyMatrix.forEach((line, i) => {
+            console.log(
+                line.map((value, index) => (index === 0 ? `${i + 1}  ` : '') + value + (index + 1 === this.numberOfVertices ? '' : ' | ')).join('')
+            )
+        })
+        console.log()
+    }
+
+    public showAccessibilityMatrix() {
+        const accessibilityMatrix = [...this.adjacencyMatrix]
+
+        const vertexQuantity = accessibilityMatrix.length
+
+        for (let k = 0; k < vertexQuantity; k++) {
+            for (let i = 0; i < vertexQuantity; i++) {
+                for (let j = 0; j < vertexQuantity; j++) {
+                    accessibilityMatrix[i][j] = accessibilityMatrix[i][j] || (accessibilityMatrix[i][k] && accessibilityMatrix[k][j])
+                }
+            }
+        }
+
+        console.log()
+        console.log("Warshall's Accessibility Matrix:")
+        console.log(
+            accessibilityMatrix
+                .map((_, index) => (index === 0 ? '   ' : '') + (index + 1) + (index + 1 === this.numberOfVertices ? '' : ' | '))
+                .join('')
+        )
+
+        accessibilityMatrix.forEach((line, i) => {
             console.log(
                 line.map((value, index) => (index === 0 ? `${i + 1}  ` : '') + value + (index + 1 === this.numberOfVertices ? '' : ' | ')).join('')
             )

@@ -18,6 +18,7 @@ function loadGraph(fileName: string, graphType: 'directed' | 'non-directed') {
         .forEach(([vertexFrom, vertexTo]) => adjacencyMatrix.addEdge(Number(vertexFrom), Number(vertexTo)))
 
     adjacencyMatrix.showMatrix()
+    adjacencyMatrix.showAccessibilityMatrix()
 }
 
 loadGraph('simpleGraph', 'directed')
