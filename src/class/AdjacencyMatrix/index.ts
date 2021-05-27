@@ -1,8 +1,8 @@
 export default class AdjacencyMatrixGraph {
     protected adjacencyMatrix: number[][]
 
-    constructor(protected numberOfVertices: number, protected isDirected: boolean) {
-        this.adjacencyMatrix = new Array(this.numberOfVertices).fill(0).map(_ => new Array(this.numberOfVertices).fill(0))
+    constructor(protected numberOfVertices: number, public isDirected: boolean) {
+        this.adjacencyMatrix = new Array(this.numberOfVertices).fill(0).map(_ => new Array(this.numberOfVertices).fill(Infinity))
     }
 
     /**
@@ -39,6 +39,14 @@ export default class AdjacencyMatrixGraph {
 
             this.adjacencyMatrix[toVertex - 1][fromVertex - 1] = 0
         }
+    }
+
+    public getNumberOfVertices() {
+        return this.numberOfVertices
+    }
+
+    public getMatrix() {
+        return this.adjacencyMatrix
     }
 
     public showDegreeFromVertex(vertex: number, log = true) {

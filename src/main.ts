@@ -2,6 +2,7 @@ import AdjacencyMatrixGraph from './class/AdjacencyMatrix'
 import AdjacencyListGraph from './class/AdjacencyList'
 import WeightedAdjacencyMatrix from './class/WeightedAdjacencyMatrix'
 import WeightedAdjacencyListGraph from './class/WeightedAdjacencyList'
+import dijkstra from './class/Dijkstra'
 
 console.log('----------------------------------------------')
 console.log('ADJACENCY MATRIX GRAPH:')
@@ -121,6 +122,9 @@ weightedAdjacencyMatrixGraph.showMatrix()
 weightedAdjacencyMatrixGraph.removeEdge(2, 4)
 
 weightedAdjacencyMatrixGraph.showMatrix()
+
+console.log('Shortest Path between 7 and 3')
+console.log(dijkstra(weightedAdjacencyMatrixGraph, 7, 1))
 
 console.log('----------------------------------------------')
 console.log('WEIGHTED ADJACENCY MATRIX GRAPH:')
