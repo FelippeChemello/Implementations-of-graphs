@@ -8,7 +8,9 @@ export default function dijkstra(weightedAdjacencyMatrix: WeightedAdjacencyMatri
     distances = Object.assign(distances, weightedAdjacencyMatrix.getMatrix()[fromNode - 1])
 
     let parents = {}
-    new Array(weightedAdjacencyMatrix.getNumberOfVertices()).fill(0).forEach((_, i) => (i !== fromNode - 1 ? (parents[i] = fromNode - 1) : null))
+    new Array(weightedAdjacencyMatrix.getNumberOfVertices())
+        .fill(0)
+        .forEach((_, i) => (i !== fromNode - 1 ? (parents[i] = fromNode - 1) : (parents[i] = Infinity)))
 
     const visited: number[] = []
 
@@ -46,10 +48,16 @@ export default function dijkstra(weightedAdjacencyMatrix: WeightedAdjacencyMatri
         node = nearestNode(distances, visited)
     }
 
+    console.log('Distances: ', distances)
+    console.log('Parents: ', parents)
+
     let shortestPath = [toNode]
     let parent = parents[toNode - 1]
     while (typeof parent !== 'undefined') {
         shortestPath.push(parent + 1)
+
+        if (parent + 1 === fromNode) break
+
         parent = parents[parent]
     }
     shortestPath.reverse()
