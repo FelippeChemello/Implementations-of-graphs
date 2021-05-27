@@ -3,8 +3,6 @@ import WeightedAdjacencyMatrix from '../WeightedAdjacencyMatrix'
 //Calculates shortest path between two nodes
 //Matrix must be simple and connected with positive weights
 export default function dijkstra(weightedAdjacencyMatrix: WeightedAdjacencyMatrix, fromNode: number, toNode: number) {
-    const traveledPath: { [node: number]: number }[] = [] // {node: accumulatedWeight}
-
     let distances = {}
     distances[toNode - 1] = Infinity
     distances = Object.assign(distances, weightedAdjacencyMatrix.getMatrix()[fromNode - 1])
