@@ -3,67 +3,75 @@ import WeightedAdjacencyMatrix from '../WeightedAdjacencyMatrix'
 //Calculates shortest path between two nodes
 //Matrix must be simple and connected with positive weights
 export default function dijkstra(weightedAdjacencyMatrix: WeightedAdjacencyMatrix, fromNode: number, toNode: number) {
-    let distances: number[] = []
+    const traveledPath: { [node: number]: number }[] = [] // {node: accumulatedWeight}
 
-    distances[toNode] = Infinity
-    distances = Object.assign(distances, weightedAdjacencyMatrix[fromNode])
+    let distances = {}
+    distances[toNode - 1] = Infinity
+    distances = Object.assign(distances, weightedAdjacencyMatrix.getMatrix()[fromNode - 1])
 
-    let parents = { fromNode: null }
-    for (let child in weightedAdjacencyMatrix[fromNode]) {
-        parents[child] = fromNode
-    }
+    let parents = {}
+    new Array(weightedAdjacencyMatrix.getNumberOfVertices()).fill(0).forEach((_, i) => (i !== fromNode - 1 ? (parents[i] = fromNode - 1) : null))
 
-    let visited: number[] = []
+    const visited: number[] = []
 
-    let node = shortestDistanceNode(distances, visited)
-    while (node) {
-        const distance = distances[node]
-        const children = weightedAdjacencyMatrix.getMatrix()[node]
-        console.log(weightedAdjacencyMatrix.getMatrix(), node)
+    let node = nearestNode(distances, visited)
 
-        children.forEach(child => {
-            if (child !== fromNode) {
-                const newDistance = distance + children[child]
+    while (typeof node !== 'undefined') {
+        let distance = distances[node]
+        let children = {}
+        weightedAdjacencyMatrix.showAdjacentVertices(node + 1, false).forEach(vertex => {
+            if (typeof node === 'undefined') {
+                console.error('Node is undefined')
+                return
+            }
 
-                if (!distances[child] || distances[child] > newDistance) {
-                    distances[child] = newDistance
-                    parents[child] = node
+            children[vertex - 1] = weightedAdjacencyMatrix.getWeight(node, vertex - 1)
+        })
+
+        Object.entries(children).forEach(([childNode, childWeight]) => {
+            if (Number(childNode) === fromNode) {
+                console.log("I won't check start Node")
+                return
+            } else {
+                let newDistance = distance + childWeight
+
+                if (!distances[childNode] || distances[childNode] > newDistance) {
+                    distances[childNode] = newDistance
+
+                    parents[childNode] = node
                 }
             }
         })
 
         visited.push(node)
 
-        node = shortestDistanceNode(distances, visited)
+        node = nearestNode(distances, visited)
     }
 
-    const shortestPath = [toNode]
-    let parent = parents[toNode]
-    while (parent) {
-        shortestPath.push(parent)
+    let shortestPath = [toNode]
+    let parent = parents[toNode - 1]
+    while (typeof parent !== 'undefined') {
+        shortestPath.push(parent + 1)
         parent = parents[parent]
     }
-
     shortestPath.reverse()
 
     return {
-        distance: distances[toNode],
+        distance: distances[toNode - 1],
         path: shortestPath,
     }
 }
 
-function shortestDistanceNode(distances: number[], visited: number[]) {
+function nearestNode(distances: { [node: number]: number }, visited: number[]) {
     let shortest: number | undefined
 
-    distances.forEach((weight, i) => {
+    Object.entries(distances).forEach(([node, weight]) => {
         let currentIsShortest = shortest === undefined || weight < distances[shortest]
 
-        if (currentIsShortest && !visited.includes(i)) {
-            shortest = i
+        if (currentIsShortest && !visited.includes(Number(node))) {
+            shortest = Number(node)
         }
     })
-
-    console.log(shortest)
 
     return shortest
 }

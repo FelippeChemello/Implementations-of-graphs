@@ -30,14 +30,14 @@ export default class AdjacencyMatrixGraph {
      * @param toVertex
      */
     public removeEdge(fromVertex: number, toVertex: number) {
-        this.adjacencyMatrix[fromVertex - 1][toVertex - 1] = 0
+        this.adjacencyMatrix[fromVertex - 1][toVertex - 1] = Infinity
 
         console.log(`Removing edge from ${fromVertex} to ${toVertex}`)
 
         if (!this.isDirected) {
             console.log(`Removing edge from ${toVertex} to ${fromVertex}`)
 
-            this.adjacencyMatrix[toVertex - 1][fromVertex - 1] = 0
+            this.adjacencyMatrix[toVertex - 1][fromVertex - 1] = Infinity
         }
     }
 
@@ -118,15 +118,19 @@ export default class AdjacencyMatrixGraph {
         return !!this.adjacencyMatrix[fromVertex - 1][toVertex - 1] ? 'exists' : "don't exists"
     }
 
-    public showAdjacentVertices(fromVertex: number) {
-        const adjacentVertices = this.adjacencyMatrix[fromVertex - 1].map((value, index) => (value > 0 ? index + 1 : 0)).filter(value => value > 0)
+    public showAdjacentVertices(fromVertex: number, log: boolean = true) {
+        const adjacentVertices = this.adjacencyMatrix[fromVertex - 1]
+            .map((value, index) => (value > 0 && value !== Infinity ? index + 1 : 0))
+            .filter(value => value > 0)
 
         if (adjacentVertices.length) {
-            console.log(`Vertex ${fromVertex} is adjacent to ${adjacentVertices.join(', ')}`)
+            if (log) console.log(`Vertex ${fromVertex} is adjacent to ${adjacentVertices.join(', ')}`)
 
             return adjacentVertices
         } else {
-            console.log(`Vertex ${fromVertex} don't have adjacent vertices`)
+            if (log) console.log(`Vertex ${fromVertex} don't have adjacent vertices`)
+
+            return []
         }
     }
 
@@ -141,7 +145,14 @@ export default class AdjacencyMatrixGraph {
 
         this.adjacencyMatrix.forEach((line, i) => {
             console.log(
-                line.map((value, index) => (index === 0 ? `${i + 1}  ` : '') + value + (index + 1 === this.numberOfVertices ? '' : ' | ')).join('')
+                line
+                    .map(
+                        (value, index) =>
+                            (index === 0 ? `${i + 1}  ` : '') +
+                            (value === Infinity ? '-' : value) +
+                            (index + 1 === this.numberOfVertices ? '' : ' | ')
+                    )
+                    .join('')
             )
         })
         console.log()

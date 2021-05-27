@@ -94,6 +94,8 @@ weightedAdjacencyMatrixGraph.addEdge(3, 4, 3)
 weightedAdjacencyMatrixGraph.addEdge(2, 4, 1)
 weightedAdjacencyMatrixGraph.addEdge(2, 3, 5)
 weightedAdjacencyMatrixGraph.addEdge(2, 1)
+weightedAdjacencyMatrixGraph.addEdge(1, 2, 9)
+weightedAdjacencyMatrixGraph.addEdge(1, 3, 7)
 weightedAdjacencyMatrixGraph.addEdge(5, 4)
 weightedAdjacencyMatrixGraph.addEdge(4, 3, 6)
 weightedAdjacencyMatrixGraph.addEdge(7, 1, 2)
@@ -123,8 +125,11 @@ weightedAdjacencyMatrixGraph.removeEdge(2, 4)
 
 weightedAdjacencyMatrixGraph.showMatrix()
 
+console.log('Shortest Path between 7 and 4')
+console.log(dijkstra(weightedAdjacencyMatrixGraph, 7, 4))
 console.log('Shortest Path between 7 and 3')
-console.log(dijkstra(weightedAdjacencyMatrixGraph, 7, 1))
+console.log(dijkstra(weightedAdjacencyMatrixGraph, 7, 3))
+
 
 console.log('----------------------------------------------')
 console.log('WEIGHTED ADJACENCY MATRIX GRAPH:')

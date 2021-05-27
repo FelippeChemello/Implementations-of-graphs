@@ -22,4 +22,8 @@ export default class WeightedAdjacencyMatrix extends AdjacencyMatrixGraph {
             this.adjacencyMatrix[toVertex - 1][fromVertex - 1] = weight
         }
     }
+
+    public getWeight(fromNode: number, toNode: number) {
+        return this.adjacencyMatrix[fromNode][toNode]
+    }
 }
